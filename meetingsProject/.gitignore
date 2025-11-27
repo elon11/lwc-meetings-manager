@@ -8,12 +8,10 @@ coverage/
 tmp/
 test-results/
 
-
 # Local files
 .vscode/
 .idea/
 *.log
-
 
 # Salesforce Auth Files
 *.json
@@ -21,36 +19,29 @@ test-results/
 *.dup
 sf.log
 
-
 # Scratch orgs
 **/orgs/**
 **/cache/**
 **/auth/**
 
-
 # OS files
 Thumbs.db
 
-
 # VSCode settings
 .history/
-
 
 # LWC temporary caches
 **/lwc/**/*.xml.bak
 **/__tests__/**/coverage/
 **/__tests__/**/.jest/
 
-
 # Ignore Salesforce create commands output
 release/
 mdapi_output/
 
-
 # GitHub
 .env
 .env.local
-
 
 # Misc
 *.zip
