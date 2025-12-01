@@ -87,10 +87,9 @@ export default class MeetingForm extends NavigationMixin(LightningElement) {
                 this.showSuccess('Attendees added successfully.');
                 this.selectedContacts = [];
 
-                // סגירת החלון (Quick Action / Modal)
+                
                 this.dispatchEvent(new CloseActionScreenEvent());
 
-                // ניווט לדף הפגישה שנוצרה
                 this[NavigationMixin.Navigate]({
                     type: 'standard__recordPage',
                     attributes: {
