@@ -10,9 +10,16 @@
             <div class="slds-p-around_medium">
                 <h2 class="slds-text-heading_medium">Add Attendees</h2>
 
-                <lightning-input label="Contact Ids (comma separated)" value={attendeeInput} onchange={handleAttInput}>
+                <!-- NEW: Search Input for Lookup -->
+                <lightning-input label="Search Contacts" placeholder="Type name..." onchange={handleSearch}>
                 </lightning-input>
 
+                <!-- NEW: Dual Listbox for Multi-Select -->
+                <lightning-dual-listbox name="contacts" label="Select Attendees" source-label="Available"
+                    selected-label="Selected" options={contactOptions} value={selectedContacts} onchange={handleSelect}>
+                </lightning-dual-listbox>
+
+                <!-- Keep original button -->
                 <lightning-button class="slds-m-top_small" label="Add Attendees" variant="brand"
                     onclick={saveAttendees}>
                 </lightning-button>

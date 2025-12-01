@@ -64,4 +64,19 @@ public with sharing class MeetingController {
 
         insert attendees;
     }
+
+    
+    /**
+     * @Method Name: searchContacts
+     * @input searchKey - Partial or full name of the contact to search for
+     * @Description: Returns a list of Contacts whose Name matches the searchKey (LIKE %searchKey%)
+     *              Limited to 50 results, ordered by Name. This method is cacheable to improve performance.
+     * @Created by Elon Yifrah
+     * @Created Date: 2025-12-01
+     */
+    @AuraEnabled(cacheable=true)
+    public static List<Contact> searchContacts(String searchKey) {
+        String key = '%' + searchKey + '%';
+        return [SELECT Id, Name FROM Contact WHERE Name LIKE :key ORDER BY Name LIMIT 50];
+    }
 }
