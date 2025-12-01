@@ -2,9 +2,10 @@ import { LightningElement, api, track } from 'lwc';
 import searchContacts from '@salesforce/apex/MeetingController.searchContacts';
 import insertAttendees from '@salesforce/apex/MeetingController.insertAttendees';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { CloseActionScreenEvent } from 'lightning/actions';
+import { NavigationMixin } from 'lightning/navigation';
 
-
-export default class MeetingForm extends LightningElement {
+export default class MeetingForm extends NavigationMixin(LightningElement) {
 
     @api recordId;     // Account Id
     @track meetingId;
@@ -85,8 +86,19 @@ export default class MeetingForm extends LightningElement {
             .then(() => {
                 this.showSuccess('Attendees added successfully.');
                 this.selectedContacts = [];
-                
-              
+
+                // סגירת החלון (Quick Action / Modal)
+                this.dispatchEvent(new CloseActionScreenEvent());
+
+                // ניווט לדף הפגישה שנוצרה
+                this[NavigationMixin.Navigate]({
+                    type: 'standard__recordPage',
+                    attributes: {
+                        recordId: this.meetingId,
+                        objectApiName: 'Meeting__c',
+                        actionName: 'view'
+                    }
+                });
             })
             .catch(err => {
                 console.error(err);
