@@ -1,12 +1,14 @@
 public class MeetingTriggerHandler {
+
     /**
-     * Populates Account__c on Meeting__c automatically with OwnerId.
+     * @Method Name: populateAccount
+     * @input meetings - List of Meeting__c records from Trigger
+     * @Description: Placeholder function. Account__c is now filled by LWC automatically.
+     *              Can be used for default Account assignment if needed.
+     * @Created by Elon Yifrah
+     * @Created Date: 2025-12-01
      */
     public static void populateAccount(List<Meeting__c> meetings) {
-        for(Meeting__c m : meetings){
-            if(m.OwnerId != null){
-                m.Account__c = m.OwnerId;
-            }
-        }
+        // No action needed, LWC fills Account__c
     }
 }

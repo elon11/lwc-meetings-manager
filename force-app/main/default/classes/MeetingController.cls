@@ -52,16 +52,21 @@ public with sharing class MeetingController {
      */
     @AuraEnabled
     public static void insertAttendees(Id meetingId, List<Id> contactIds) {
-
+    
+    System.debug('--- insertAttendees called ---');
+    System.debug('meetingId: ' + meetingId);
+    System.debug('contactIds: ' + contactIds);
         List<Meeting_Attendee__c> attendees = new List<Meeting_Attendee__c>();
-
+ System.debug('^^^^' );
         for (Id cId : contactIds) {
+            System.debug('$$$$' );
             attendees.add(new Meeting_Attendee__c(
                 Meeting__c = meetingId,
                 Contact__c = cId
             ));
+            System.debug('######### ' );
         }
-
+        System.debug('attendees'+attendees );
         insert attendees;
     }
 
