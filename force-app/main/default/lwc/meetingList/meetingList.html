@@ -1,0 +1,12 @@
+<template>
+    <template if:true={meetings}>
+        <ul>
+            <template for:each={meetings} for:item="meeting">
+                <li key={meeting.Id}>{meeting.Name} - {meeting.Meeting_Date__c} - {meeting.Status__c}</li>
+            </template>
+        </ul>
+    </template>
+    <template if:false={meetings}>
+        <p>No meetings found</p>
+    </template>
+</template>
