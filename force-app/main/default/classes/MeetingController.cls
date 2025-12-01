@@ -28,4 +28,40 @@ public with sharing class MeetingController {
                 FROM Meeting__c 
                 ORDER BY Meeting_Date__c DESC];
     }
+
+
+        /**
+     * @Method Name: insertAttendees
+     * @input 
+     *   meetingId - Id of the Meeting to which attendees should be added.
+     *   contactIds - List of Contact Ids to be added as attendees.
+     * @Description: 
+     *   Static method that adds a list of Contacts as attendees to a specific Meeting.
+     *   The method creates new Meeting_Attendee__c records, linking each Contact from
+     *   the input list to the given Meeting. Finally, all attendee records are inserted 
+     *   into the database.
+     * @Behavior:
+     *   - The method is annotated with @AuraEnabled, making it accessible from LWC or Aura Components.
+     *   - If the contactIds list is empty, no records will be created.
+     *   - All attendees are inserted in a single DML operation.
+     * @Exceptions:
+     *   - If there is an issue inserting records (e.g., validation rules, missing permissions),
+     *     a DMLException will be thrown.
+     * @Created by Elon Yifrah
+     * @Created Date: 01/12/2025
+     */
+    @AuraEnabled
+    public static void insertAttendees(Id meetingId, List<Id> contactIds) {
+
+        List<Meeting_Attendee__c> attendees = new List<Meeting_Attendee__c>();
+
+        for (Id cId : contactIds) {
+            attendees.add(new Meeting_Attendee__c(
+                Meeting__c = meetingId,
+                Contact__c = cId
+            ));
+        }
+
+        insert attendees;
+    }
 }

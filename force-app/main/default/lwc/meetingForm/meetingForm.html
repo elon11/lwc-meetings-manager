@@ -1,0 +1,31 @@
+<template>
+    <lightning-card title="Create New Meeting">
+        <template if:true={showForm}>
+            <lightning-record-form
+                object-api-name="Meeting__c"
+                layout-type="Full"
+                mode="edit"
+                onsuccess={handleSuccess}>
+            </lightning-record-form>
+        </template>
+
+        <template if:true={showAttendees}>
+            <div class="slds-p-around_medium">
+                <h2 class="slds-text-heading_medium">Add Attendees</h2>
+
+                <lightning-input
+                    label="Contact Ids (comma separated)"
+                    value={attendeeInput}
+                    onchange={handleAttInput}>
+                </lightning-input>
+
+                <lightning-button 
+                    class="slds-m-top_small"
+                    label="Add Attendees"
+                    variant="brand"
+                    onclick={saveAttendees}>
+                </lightning-button>
+            </div>
+        </template>
+    </lightning-card>
+</template>
