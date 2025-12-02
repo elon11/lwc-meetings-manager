@@ -156,8 +156,8 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>Meeting_Attendee</label>
     <nameField>
-        <label>Meeting_Attendee__c Name</label>
-        <type>Text</type>
+        <label>Attendee Name</label>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Meeting Attendee</pluralLabel>
     <searchLayouts></searchLayouts>
