@@ -52,23 +52,39 @@ public with sharing class MeetingController {
      */
     @AuraEnabled
     public static void insertAttendees(Id meetingId, List<Id> contactIds) {
-    
-    System.debug('--- insertAttendees called ---');
-    System.debug('meetingId: ' + meetingId);
-    System.debug('contactIds: ' + contactIds);
-        List<Meeting_Attendee__c> attendees = new List<Meeting_Attendee__c>();
- System.debug('^^^^' );
-        for (Id cId : contactIds) {
-            System.debug('$$$$' );
-            attendees.add(new Meeting_Attendee__c(
-                Meeting__c = meetingId,
-                Contact__c = cId
-            ));
-            System.debug('######### ' );
+        System.debug('--- insertAttendees called ---');
+        System.debug('meetingId: ' + meetingId);
+        System.debug('contactIds: ' + contactIds);
+
+        if (contactIds == null || contactIds.isEmpty()) {
+            System.debug('No contacts provided.');
+            return;
         }
-        System.debug('attendees'+attendees );
-        insert attendees;
+
+        // שליפה אחת בלבד של כל הקונטים לפי ה-IDs
+        Map<Id, Contact> contactsMap = new Map<Id, Contact>(
+            [SELECT Id, Email FROM Contact WHERE Id IN :contactIds]
+        );
+
+        List<Meeting_Attendee__c> attendees = new List<Meeting_Attendee__c>();
+
+        for (Id cId : contactIds) {
+            Contact c = contactsMap.get(cId);
+            if (c != null) {
+                attendees.add(new Meeting_Attendee__c(
+                    Meeting__c = meetingId,
+                    Contact__c = c.Id,
+                    Email__c = c.Email // ממלא את השדה החובה
+                ));
+            }
+        }
+
+        if (!attendees.isEmpty()) {
+            insert attendees;
+            System.debug('Inserted attendees: ' + attendees.size());
+        }
     }
+
 
     
     /**
