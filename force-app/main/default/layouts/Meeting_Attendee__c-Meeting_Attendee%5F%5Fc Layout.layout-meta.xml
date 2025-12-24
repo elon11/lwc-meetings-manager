@@ -16,20 +16,16 @@
                 <field>Contact__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Required</behavior>
+                <field>Email__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Contact_Name__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Meeting__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Role__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>RSVP_Status__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -40,6 +36,14 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>CurrencyIsoCode</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>RSVP_Status__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Role__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>

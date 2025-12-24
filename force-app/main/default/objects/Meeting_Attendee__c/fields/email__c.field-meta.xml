@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>email__c</fullName>
+    <fullName>Email__c</fullName>
     <caseSensitive>true</caseSensitive>
     <externalId>false</externalId>
-    <label>email</label>
+    <label>Email</label>
     <required>true</required>
     <trackTrending>false</trackTrending>
     <type>Email</type>
