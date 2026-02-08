@@ -2,6 +2,8 @@ public class MeetingEmailService {
 
     public static void sendMeetingEmails(Set<Id> meetingIds) {
 
+        if (meetingIds == null || meetingIds.isEmpty()) return;
+
         // 1️⃣ פגישות + יוצר
         Map<Id, Meeting__c> meetingsMap = new Map<Id, Meeting__c>(
             [SELECT Id, Name, CreatedById
