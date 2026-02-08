@@ -10,9 +10,10 @@ public class MeetingEmailQueueable implements Queueable, Database.AllowsCallouts
     public void execute(QueueableContext context) {
         if (meetingIds == null || meetingIds.isEmpty()) return;
 
-        // קריאה למחלקת המייל הקיימת לשליחת מיילים
-        MeetingEmailService.sendMeetingEmails(meetingIds);
+        // 🔹 קריאה לשירות חיצוני
+        Map<Id, String> apiData = ExternalService.fetchData(meetingIds);
 
-        // בעתיד ניתן להוסיף כאן Callouts לשירות חיצוני
+        // 🔹 שליחת מיילים עם המידע מה-API
+        MeetingEmailService.sendMeetingEmails(meetingIds, apiData);
     }
 }
