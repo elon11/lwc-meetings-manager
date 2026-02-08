@@ -1,0 +1,14 @@
+<template>
+    <lightning-quick-action-panel header={modalTitle} style={titleStyle}>
+        <div class="slds-p-around_medium">
+            <lightning-textarea label="Your Comment" value={bodyValue} onchange={handleBodyChange}></lightning-textarea>
+        </div>
+
+        <div slot="footer" class="slds-grid slds-grid_align-end">
+            <lightning-button label="Cancel" onclick={handleCancel}></lightning-button>
+
+            <lightning-button class="slds-m-left_small" label="Save" variant="brand" onclick={handleSave}
+                disabled={isSaveDisabled}></lightning-button>
+        </div>
+    </lightning-quick-action-panel>
+</template>
