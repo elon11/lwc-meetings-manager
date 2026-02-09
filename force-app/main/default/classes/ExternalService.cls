@@ -16,16 +16,16 @@ public class ExternalService {
                 HttpRequest req = new HttpRequest();
                 req.setMethod('GET');
 
-                // שימוש ב-Named Credential (בלי דומיין בקוד)
-                req.setEndpoint(
-                    'callout:Meeting_API/meeting-info?id=' + meetingId
-                );
+                // שימוש ב-Named Credential ל-JSONPlaceholder
+                // מחזיר רשימת משתמשים לדוגמה
+                req.setEndpoint('callout:Meeting_API/users');
 
                 req.setTimeout(5000);
 
                 HttpResponse res = http.send(req);
 
                 if (res.getStatusCode() == 200) {
+                    // שומרים את ה-JSON שהתקבל עבור כל Meeting Id
                     resultMap.put(meetingId, res.getBody());
                 } else {
                     resultMap.put(
