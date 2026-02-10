@@ -16,21 +16,39 @@ public class ExternalService {
                 HttpRequest req = new HttpRequest();
                 req.setMethod('GET');
 
-                // שימוש ב-Named Credential ל-JSONPlaceholder
-                // מחזיר רשימת משתמשים לדוגמה
+                // קריאה ל-JSONPlaceholder
                 req.setEndpoint('callout:Meeting_API/users');
-
                 req.setTimeout(5000);
 
                 HttpResponse res = http.send(req);
 
                 if (res.getStatusCode() == 200) {
-                    // שומרים את ה-JSON שהתקבל עבור כל Meeting Id
-                    resultMap.put(meetingId, res.getBody());
+
+                    // המרה ל-List של Maps
+                    List<Object> users =
+                        (List<Object>) JSON.deserializeUntyped(res.getBody());
+
+                    String formattedResult = '';
+
+                    for (Object obj : users) {
+                        Map<String, Object> user =
+                            (Map<String, Object>) obj;
+
+                        String name = (String) user.get('name');
+                        String email = (String) user.get('email');
+
+                        formattedResult +=
+                            'שם: ' + name + '\n' +
+                            'אימייל: ' + email + '\n\n';
+                    }
+
+                    resultMap.put(meetingId, formattedResult);
+
                 } else {
                     resultMap.put(
                         meetingId,
-                        'שגיאה בנתוני API: ' + res.getStatusCode() + ' - ' + res.getBody()
+                        'שגיאה בנתוני API: ' +
+                        res.getStatusCode() + ' - ' + res.getBody()
                     );
                 }
 
