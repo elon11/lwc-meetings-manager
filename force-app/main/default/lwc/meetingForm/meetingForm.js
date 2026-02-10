@@ -7,7 +7,7 @@ import { NavigationMixin } from 'lightning/navigation';
 
 export default class MeetingForm extends NavigationMixin(LightningElement) {
 
-    @api recordId;     // Account Id
+    @api recordId;
     @track meetingId;
 
     @track showForm = true;
@@ -16,52 +16,46 @@ export default class MeetingForm extends NavigationMixin(LightningElement) {
     @track contactOptions = [];
     @track selectedContacts = [];
 
-    /** STEP 1 — BEFORE SAVE: inject Account__c */
+    allContactsMap = new Map();
+
     handleSubmit(event) {
         event.preventDefault();
-
         const fields = event.detail.fields;
 
-        // אם הגיע מהדף של חשבון → מאכלסים
         if (this.recordId) {
             fields.Account__c = this.recordId;
         }
 
-        // שמירה בפועל
         this.template.querySelector('lightning-record-form').submit(fields);
     }
 
-    /** STEP 2 — after success */
     handleSuccess(event) {
         this.meetingId = event.detail.id;
-
         this.showForm = false;
         this.showAttendees = true;
 
-        this.dispatchEvent(
-            new ShowToastEvent({
-                title: 'Meeting Created',
-                message: 'Now select attendees.',
-                variant: 'success'
-            })
-        );
+        this.showSuccess('Meeting Created. Now select attendees.');
     }
 
-    /** SEARCH CONTACTS */
     handleSearch(event) {
         const key = event.target.value;
 
         if (key.length < 2) {
-            this.contactOptions = [];
             return;
         }
 
         searchContacts({ searchKey: key })
             .then(result => {
-                this.contactOptions = result.map(c => ({
-                    label: c.Name,
-                    value: c.Id
-                }));
+                result.forEach(c => {
+                    if (!this.allContactsMap.has(c.Id)) {
+                        this.allContactsMap.set(c.Id, {
+                            label: c.Name,
+                            value: c.Id
+                        });
+                    }
+                });
+
+                this.contactOptions = Array.from(this.allContactsMap.values());
             })
             .catch(err => console.error(err));
     }
@@ -70,7 +64,6 @@ export default class MeetingForm extends NavigationMixin(LightningElement) {
         this.selectedContacts = event.detail.value;
     }
 
-    /** SAVE ATTENDEES */
     saveAttendees() {
         if (!this.meetingId) {
             this.showError('Meeting ID missing.');
@@ -82,12 +75,12 @@ export default class MeetingForm extends NavigationMixin(LightningElement) {
             return;
         }
 
-        insertAttendees({ meetingId: this.meetingId, contactIds: this.selectedContacts })
+        insertAttendees({
+            meetingId: this.meetingId,
+            contactIds: this.selectedContacts
+        })
             .then(() => {
                 this.showSuccess('Attendees added successfully.');
-                this.selectedContacts = [];
-
-                
                 this.dispatchEvent(new CloseActionScreenEvent());
 
                 this[NavigationMixin.Navigate]({
@@ -99,13 +92,11 @@ export default class MeetingForm extends NavigationMixin(LightningElement) {
                     }
                 });
             })
-            .catch(err => {
-                console.error(err);
+            .catch(() => {
                 this.showError('Error adding attendees.');
             });
     }
 
-    /** UTILITIES */
     showSuccess(msg) {
         this.dispatchEvent(new ShowToastEvent({ title: 'Success', message: msg, variant: 'success' }));
     }
