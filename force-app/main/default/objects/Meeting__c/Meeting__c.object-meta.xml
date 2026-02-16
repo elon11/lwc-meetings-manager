@@ -156,7 +156,7 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>Meeting</label>
     <nameField>
-        <label>Meeting__c Name</label>
+        <label>Meeting Name</label>
         <type>Text</type>
     </nameField>
     <pluralLabel>Meetings</pluralLabel>
